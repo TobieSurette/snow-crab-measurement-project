@@ -79,7 +79,7 @@ for (i in 1:nrow(int)){
 }
 
 # Write row-oriented files:
-write.csv(int, row.names = FALSE, file = "C:/Users/SuretteTJ/Desktop/github/snow-crab-measurement-project/studies/September 2023 - Western Cape Breton/data/SEP2023_NIR_row_intensities.csv")
+write.csv(int, row.names = FALSE, file = "C:/Users/SuretteTJ/Desktop/github/snow-crab-measurement-project/studies/September 2023 - Western Cape Breton/data/SEP2023_NIR_row_intensity.csv")
 write.csv(abs, row.names = FALSE, file = "C:/Users/SuretteTJ/Desktop/github/snow-crab-measurement-project/studies/September 2023 - Western Cape Breton/data/SEP2023_NIR_row_absorption.csv")
 
 fvars <- names(abs)[gsub("[0-9.]", "", names(abs)) == ""]
