@@ -1,5 +1,5 @@
 
-files <- dir(path = "C:/Users/SuretteTJ/Desktop/github/snow-crab-measurement-project/data/NIR/raw", full.names = TRUE)
+files <- dir(path = "C:/Users/SuretteTJ/Desktop/github/snow-crab-measurement-project/studies/September 2023 - Western Cape Breton/data/raw", full.names = TRUE)
 
 res <- NULL
 for (j in 1:length(files)){
@@ -48,17 +48,53 @@ names(res) <- gsub('intensity', 'value', names(res))
 # Organize variables:
 remove <- c('session.id', 'sample.name', 'session', 'scan.configuration', 'scanner.serial', 'session.date.utc', 'scan.pga')
 res  <- res[, setdiff(names(res), remove)]
-vars <- c("date", "time", "crab.number", "size.class", "scan")
-res  <- res[, c(vars, setdiff(names(res), vars))]
 rownames(res) <- NULL
 
 res$measure   <- "intensity"
-res$measure[res$intensity < 5] <- "other"
+res$measure[res$value < 5] <- "absorption"
 
 # Remove ad-hoc experiment:
 res <- res[res$crab.number <= 70, ]
 
+# Re-order variables:
+vars <- c("date", "time", "crab.number", "size.class", "body.part", "scan")
+res  <- res[, c(vars, setdiff(names(res), vars))]
+
 # Write reformatted data to file:
-write.csv(res, row.names = FALSE, file = "C:/Users/SuretteTJ/Desktop/github/snow-crab-measurement-project/data/SEP2023_NIR.csv")
+write.csv(res, row.names = FALSE, file = "C:/Users/SuretteTJ/Desktop/github/snow-crab-measurement-project/studies/September 2023 - Western Cape Breton/data/SEP2023_NIR.csv")
+
+# Write row-oriented version:
+key <- c("date",  "time", "crab.number", "size.class", "scan", "body.part", "scan.temperature", "scan.humidity")
+tmp <- unique(res[key])
+wavelengths <- sort(unique(round(res$wavelength,1)))
+tmp[, as.character(wavelengths)] <- NA
+int <- tmp
+abs <- tmp
+rm(tmp)
+
+ix <- match(res[key], int[key])
+for (i in 1:nrow(int)){
+   int[i, as.character(round(res[(ix == i) & (res$measure == "intensity"), "wavelength"],1))]  <-  res[(ix == i) & (res$measure == "intensity"), "value"]
+   abs[i, as.character(round(res[(ix == i) & (res$measure == "absorption"), "wavelength"],1))] <-  res[(ix == i) & (res$measure == "absorption"), "value"]
+}
+
+# Write row-oriented files:
+write.csv(int, row.names = FALSE, file = "C:/Users/SuretteTJ/Desktop/github/snow-crab-measurement-project/studies/September 2023 - Western Cape Breton/data/SEP2023_NIR_row_intensities.csv")
+write.csv(abs, row.names = FALSE, file = "C:/Users/SuretteTJ/Desktop/github/snow-crab-measurement-project/studies/September 2023 - Western Cape Breton/data/SEP2023_NIR_row_absorption.csv")
+
+fvars <- names(abs)[gsub("[0-9.]", "", names(abs)) == ""]
+plot(range(as.numeric(wavelengths)), c(0, 3.5), type = "n")
+for (i in 1:nrow(abs)){
+   if (abs$body.part[i] == "merus"){
+      col <- "blue"
+      offset <- 0   
+   }else{
+      col <- "red"
+      offset <- 1  
+   } 
+         
+   lines(as.numeric(wavelengths), abs[i, fvars] + offset, col = col)
+}
+
 
 
