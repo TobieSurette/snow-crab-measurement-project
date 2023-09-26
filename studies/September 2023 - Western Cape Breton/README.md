@@ -20,3 +20,8 @@ An observational study was conducted on board the CCGS M. Perley from September 
 ## Data set
 
 An initial data set of about 70 crabs were measured and a further 20 or so crabs were frozen for later measurement in the lab.
+
+## Issues
+
+- When measuring, the Tellspec NIR was protected with either a plastic film (e.g. Saran Wrap) or a small transparent plastic disk. What type of protective film was used is contained in the the `protection` variable. Different platics are likely to affect the absorption spectra in different ways.
+  
