@@ -18,6 +18,8 @@ Hebert, M. and Gallant, C. Chiasson, Y. Mallet, P., DeGrace P., et Moriyasu.  M.
 
 Foyle, Timothy P. & Hurley, Geoffrey V. & Taylor, David M. 1989. Field testing shell hardness gauges for the snow crab fishery. Canadian Industry Report of Fisheries and Aquatic Sciences No. 193. 
 
+Mullowney, Darrell & Baker, Krista & Zabihi-Seissan, Sana & Morris, Corey. (2020). Biological perspectives on complexities of fisheries co-management: A case study of Newfoundland and Labrador snow crab. Fisheries Research. 232. 105728. 10.1016/j.fishres.2020.105728. 
+
 Mullowney, Darrell & Baker, Krista. (2021). Hard to Manage? Dynamics of Soft-Shell Crab in the Newfoundland and Labrador Snow Crab Fishery. Frontiers in Marine Science. 8. 1-11. 10.3389/fmars.2021.591496. 
 
 Nuria Prieto, Olga Pawluczyk, Michael Edward Russell Dugan, and Jennifer Lynn Aalhus. (2017). A Review of the Principles and Applications of Near-Infrared Spectroscopy to Characterize Meat, Fat, and Meat Products. Applied Spectroscopy. Vol. 71(7) 1403–1426.
