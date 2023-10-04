@@ -93,7 +93,7 @@ for (i in 1:nrow(abs)){
       offset <- 1  
    } 
          
-   lines(as.numeric(wavelengths), abs[i, fvars] + offset, col = col)
+   lines(as.numeric(wavelengths), abs[i, fvars] + offset, col = col, lwd = 0.5)
 }
 
 
