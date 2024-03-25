@@ -10,6 +10,11 @@ Snow crab grow by periodically shedding their old, smaller, hard shell and formi
 
 Currently, soft-shelled crab are distinguished using subjective external characteristics of the crab’s shell, such as colour, opacity, iridescence, or the quantity of surface organisms on the crab shell. Training and field testing is required to achieve the desired level of consistency between field samplers, with varying levels of success. Reliable identification is further complicated by variations in the external appearance of in different locations and over the field season. Thus, there is a need of a way to objectively distinguish between soft and hard-shelled crab in the field. 
 
+# Methods
+
+1. Objectively determine whether is crab is new-shelled or old-shelled at different times of the year. This determination can be achieved using high-dimensional data (e.g. spectroscopy) or more laborious methods (e.g. dissections or histology).
+2. From a crab data set whose new-shelled or old-shelled status has been reliably determined, see whether the status can be determined from other observations which are easier to obtain, such as field photos of crab or from a field measurement device.
+
 # References 
 
 Gayo, Javier & Hale, Scott & Blanchard, Susan. (2006). Quantitative Analysis and Detection of Adulteration in Crab Meat Using Visible and Near-Infrared Spectroscopy. Journal of agricultural and food chemistry. 54. 1130-6. 10.1021/jf051636i. 
