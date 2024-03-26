@@ -1,6 +1,6 @@
 # snow-crab-measurement-project
 
-This project regroups various studies focusing intrumental measurement and characterization of snow crab material properties, such as carapace appearance and condition, meat content, morphometrics and maturity stages.  
+This project includes several studies focusing on intrumental measurement and characterization of the material properties of snow crab, with the usual aim of identifying and characterizing shell condition or reproductive stages.  
 
 ## Background
 Snow crab grow by periodically shedding their old, smaller, hard shell and forming a new, larger and soft shell, which subsequently hardens over time. With respect to managing the snow crab fishery, it is important to distinguish soft-shelled crab for two reasons: 
