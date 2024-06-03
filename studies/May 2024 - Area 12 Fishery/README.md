@@ -9,7 +9,7 @@ A further set of 37 mostly **hard-shelled** crab were bought at a local crab pro
 - Standard measurements and observations (carapace and chela size, carapace condition, etc.).
 - Durometer (chela).
 - Colorimeter (chela and merus).
-- Near-infrared field spectrometer (Tellspec NIR) (chela and merus).
+- Near-infrared field spectrometer (Tellspec NIR) (merus only).
 - Photos (ventral and dorsal, 3-6 repeated photos).
 - Hemolymph sample for total protein content using refractometer (Brix index).
 - Meat content (from crab leg samples brought to the lab).
