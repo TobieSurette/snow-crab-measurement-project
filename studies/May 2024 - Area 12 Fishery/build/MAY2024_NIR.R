@@ -1,12 +1,16 @@
 
-files <- dir(path = "C:/Users/SuretteTJ/Desktop/github/snow-crab-measurement-project/studies/September 2023 - Western Cape Breton/data/raw", full.names = TRUE)
+study <- "MAY2024"
+study.path <- "May 2024 - Area 12 Fishery"
+
+files <- dir(path = paste0("C:/Users/SuretteTJ/Desktop/github/snow-crab-measurement-project/studies/", study.path, "/data/raw"), full.names = TRUE)
 
 res <- NULL
 for (j in 1:length(files)){
    print(files[j])
    x <- read.csv(files[j])
    
-   names(x) <- gsub("[.]+", ".", names(x))
+   names(x) <- gsub("[.]+", ".", tolower(names(x)))
+   names(x) <- gsub("[.]$", "", names(x))
    names(x) <- gsub("[_]+", ".", names(x))
    
    fvars <- names(x)[grep("^[xX][0-9]+", names(x))]
@@ -14,6 +18,9 @@ for (j in 1:length(files)){
    print(setdiff(names(x), fvars))
    
    ix <- seq(2, nrow(x), by = 2)
+   
+   x$crab.number <- x$x
+   x <- gulf.utils::compress(x)
    
    for (i in 1:length(ix)){
       tmp <- data.frame(sample.name        = x$sample.name[ix[i]],
@@ -23,7 +30,7 @@ for (j in 1:length(files)){
                         session.date.utc   = x$session.date.utc[ix[i]],
                         scan               = x$scan[ix[i]],
                         crab.number        = x$crab.number[ix[i]],
-                        scan.chela.merus  = ifelse(is.null(x$scan.chela.merus[ix[i]]), "", x$scan.chela.merus[ix[i]]),
+                        #scan.chela.merus  = ifelse(is.null(x$scan.chela.merus[ix[i]]), "", x$scan.chela.merus[ix[i]]),
                         scanner.serial     = x$scanner.serial[ix[i]],
                         scan.configuration = x$scan.configuration[ix[i]],
                         scan.temperature   = x$scan.temperature[ix[i]],
@@ -36,7 +43,8 @@ for (j in 1:length(files)){
    }
 }
 
-res$scan.chela.merus <- tolower(gsub(" ", "", res$scan.chela.merus))
+res$scan.chela.merus <- "merus"
+#res$scan.chela.merus <- tolower(gsub(" ", "", res$scan.chela.merus))
 
 res$date <- unlist(lapply(strsplit(res$session.date.utc, " "), function(x) x[1]))
 res$time <- unlist(lapply(strsplit(res$session.date.utc, " "), function(x) x[2]))
@@ -54,14 +62,14 @@ res$measure   <- "intensity"
 res$measure[res$value < 5] <- "absorption"
 
 # Remove ad-hoc experiment:
-res <- res[res$crab.number <= 70, ]
+#res <- res[res$crab.number <= 70, ]
 
 # Re-order variables:
 vars <- c("date", "time", "crab.number", "size.class", "body.part", "scan")
 res  <- res[, c(vars, setdiff(names(res), vars))]
 
 # Write reformatted data to file:
-write.csv(res, row.names = FALSE, file = "C:/Users/SuretteTJ/Desktop/github/snow-crab-measurement-project/studies/September 2023 - Western Cape Breton/data/SEP2023_NIR.csv")
+write.csv(res, row.names = FALSE, file = paste0("studies/", study.path, "/data/", study, "_NIR.csv"))
 
 # Write row-oriented version:
 key <- c("date",  "time", "crab.number", "size.class", "scan", "body.part", "scan.temperature", "scan.humidity")
@@ -79,11 +87,11 @@ for (i in 1:nrow(int)){
 }
 
 # Write row-oriented files:
-write.csv(int, row.names = FALSE, file = "C:/Users/SuretteTJ/Desktop/github/snow-crab-measurement-project/studies/September 2023 - Western Cape Breton/data/SEP2023_NIR_row_intensity.csv")
-write.csv(abs, row.names = FALSE, file = "C:/Users/SuretteTJ/Desktop/github/snow-crab-measurement-project/studies/September 2023 - Western Cape Breton/data/SEP2023_NIR_row_absorption.csv")
+write.csv(int, row.names = FALSE, file = paste0("studies/", study.path, "/data/", study, "_NIR_row_intensity.csv"))
+write.csv(abs, row.names = FALSE, file = paste0("studies/", study.path, "/data/", study, "_NIR_row_absorption.csv"))
 
 fvars <- names(abs)[gsub("[0-9.]", "", names(abs)) == ""]
-plot(range(as.numeric(wavelengths)), c(0, 3.5), type = "n")
+plot(range(as.numeric(wavelengths)), c(0, 2.5), type = "n")
 for (i in 1:nrow(abs)){
    if (abs$body.part[i] == "merus"){
       col <- "blue"
@@ -93,8 +101,6 @@ for (i in 1:nrow(abs)){
       offset <- 1  
    } 
          
-   lines(as.numeric(wavelengths), abs[i, fvars] + offset, col = col, lwd = 0.5)
+   lines(as.numeric(wavelengths), abs[i, fvars] + offset, col = gulf.graphics::fade(col, alpha = 0.25), lwd = 0.5)
 }
-
-
 
