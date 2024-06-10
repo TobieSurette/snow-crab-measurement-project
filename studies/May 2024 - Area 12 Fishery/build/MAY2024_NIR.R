@@ -1,3 +1,4 @@
+library(gulf.data)
 
 study <- "MAY2024"
 study.path <- "May 2024 - Area 12 Fishery"
@@ -90,17 +91,57 @@ for (i in 1:nrow(int)){
 write.csv(int, row.names = FALSE, file = paste0("studies/", study.path, "/data/", study, "_NIR_row_intensity.csv"))
 write.csv(abs, row.names = FALSE, file = paste0("studies/", study.path, "/data/", study, "_NIR_row_absorption.csv"))
 
+# Absolute values:
 fvars <- names(abs)[gsub("[0-9.]", "", names(abs)) == ""]
-plot(range(as.numeric(wavelengths)), c(0, 2.5), type = "n")
+plot(range(as.numeric(wavelengths)), c(min(abs[fvars]), max(abs[fvars])), type = "n")
+grid()
 for (i in 1:nrow(abs)){
    if (abs$body.part[i] == "merus"){
-      col <- "blue"
+      if (abs$crab.number[i] %in% c(23:60)) col <- gulf.graphics::fade("blue", alpha = 0.25)
+      if (abs$crab.number[i] %in% c(1:22))  col <- gulf.graphics::fade("green2", alpha = 0.25)
       offset <- 0   
    }else{
       col <- "red"
       offset <- 1  
    } 
          
-   lines(as.numeric(wavelengths), abs[i, fvars] + offset, col = gulf.graphics::fade(col, alpha = 0.25), lwd = 0.5)
+   lines(as.numeric(wavelengths), abs[i, fvars] + offset, col = col, lwd = 0.75)
 }
+
+# Intensity values:
+fvars <- names(int)[gsub("[0-9.]", "", names(int)) == ""]
+plot(range(as.numeric(wavelengths)), c(0, max(int[fvars])), 
+     type = "n", xlab = "", ylab = "", xaxs = "i", yaxs = "i")
+grid()
+j <- 32
+for (i in 1:nrow(int)){
+   if (int$body.part[i] == "merus"){
+      if (int$crab.number[i] %in% c(23:60)) col <- gulf.graphics::fade("blue", alpha = 0.25)
+      if (int$crab.number[i] %in% setdiff(c(1:22), 16)) col <- gulf.graphics::fade("green2", alpha = 0.25)
+      offset <- 0   
+   }else{
+      col <- "red"
+      offset <- 1  
+   } 
+   
+   if (!(int$crab.number[i] %in% j)){
+      lines(as.numeric(wavelengths), int[i, fvars] + offset, col = col, lwd = 2)
+   }
+   
+   #if (!is.na(col)){
+   #   text(1277.5, int[i, "1277.5"], int$crab.number[i]) 
+   #   text(1507, int[i, "1507"], int$crab.number[i]) 
+   #} 
+}
+for (i in 1:nrow(int)){
+   if (int$crab.number[i] %in% j){
+      lines(as.numeric(wavelengths), int[i, fvars] + offset, col = gulf.graphics::fade("red", alpha = 0.5), lwd = 3)
+      text(1277.5, int[i, "1277.5"], int$scan[i]) 
+      text(1507, int[i, "1507"], int$scan[i]) 
+   }
+}
+mtext("Wavelength (nm)", 1, 2.75, font = 2, cex = 1.25)
+mtext("Intensity", 2, 2.75, font = 2, cex = 1.25)
+box(col = "grey50")
+
 
