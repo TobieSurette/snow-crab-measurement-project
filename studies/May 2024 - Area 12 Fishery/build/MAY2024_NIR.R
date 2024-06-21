@@ -70,7 +70,7 @@ vars <- c("date", "time", "crab.number", "size.class", "body.part", "scan")
 res  <- res[, c(vars, setdiff(names(res), vars))]
 
 # Write reformatted data to file:
-write.csv(res, row.names = FALSE, file = paste0("studies/", study.path, "/data/", study, "_NIR.csv"))
+#write.csv(res, row.names = FALSE, file = paste0("studies/", study.path, "/data/", study, "_NIR.csv"))
 
 # Write row-oriented version:
 key <- c("date",  "time", "crab.number", "size.class", "scan", "body.part", "scan.temperature", "scan.humidity")
@@ -88,8 +88,8 @@ for (i in 1:nrow(int)){
 }
 
 # Write row-oriented files:
-write.csv(int, row.names = FALSE, file = paste0("studies/", study.path, "/data/", study, "_NIR_row_intensity.csv"))
-write.csv(abs, row.names = FALSE, file = paste0("studies/", study.path, "/data/", study, "_NIR_row_absorption.csv"))
+#write.csv(int, row.names = FALSE, file = paste0("studies/", study.path, "/data/", study, "_NIR_row_intensity.csv"))
+#write.csv(abs, row.names = FALSE, file = paste0("studies/", study.path, "/data/", study, "_NIR_row_absorption.csv"))
 
 # Absolute values:
 fvars <- names(abs)[gsub("[0-9.]", "", names(abs)) == ""]
@@ -113,7 +113,7 @@ fvars <- names(int)[gsub("[0-9.]", "", names(int)) == ""]
 plot(range(as.numeric(wavelengths)), c(0, max(int[fvars])), 
      type = "n", xlab = "", ylab = "", xaxs = "i", yaxs = "i")
 grid()
-j <- 32
+j <- 6
 for (i in 1:nrow(int)){
    if (int$body.part[i] == "merus"){
       if (int$crab.number[i] %in% c(23:60)) col <- gulf.graphics::fade("blue", alpha = 0.25)
