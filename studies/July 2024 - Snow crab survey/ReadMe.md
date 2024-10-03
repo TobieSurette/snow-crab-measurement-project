@@ -6,18 +6,18 @@ During the 2024 snow crab survey, from July 10th to September 15th, which takes 
 
 ## Objectives
 
-1. Gather a representative sample of crab throughout the southern Gulf dataset on individual snow crab which contains traditional observables, as well as new observables made with new devices measuring other material properties of snow crab.
+1. Gather a representative sample of crab throughout the southern Gulf dataset on individual snow crab which contains traditional observables, as well as colorimeter data and photos.
 2. Characterize the observed differences between the new-shelled and old-shelled crab, and explore which types of measurements might be used to clearly distinguish between the two groups in the field.
 
 ## Measurements
 
 - Standard measurements and observations (carapace and chela size, carapace condition, etc.).
 - Colorimeter (chela).
-- Photos (ventral and dorsal, chela time permitting).
+- Photos (whole crab, ventral and dorsal).
 
 ## Data set
 
-An initial data set of about 1003 male crabs were measured.
+A set of 1000 male crabs were measured, all male snow crab larger than 90 millimeters carapace width. At each survey tow, one crab per shell condition category were photographed and measured with a colorimeter.
 
 ## Issues
 
