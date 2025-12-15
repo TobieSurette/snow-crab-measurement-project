@@ -1,6 +1,6 @@
 library(gulf.data)
 
-# Organize colorimeter data:
+# Organize colourimeter data:
 file <- data.frame(name = dir(path = "W:/Crab/Offshore Crab Common/Fishing Year 2024/Trawl Survey/colorimeter",
                               full.names = TRUE, include.dirs = FALSE))
 
@@ -15,7 +15,7 @@ for (i in 1:nrow(file)){
    tmp$file <- file$name[i]
    r <- rbind(r, tmp)
 }
-colnames(r) <- c("description", "color.x", "color.y", "color.z", "date", "time", "file")
+colnames(r) <- c("description", "colour.x", "colour.y", "colour.z", "date", "time", "file")
 
 # Date format:
 r$date <- date(year = as.numeric(unlist(lapply(strsplit(r$date, "/"), function(x) x[3]))),
@@ -39,7 +39,7 @@ r$crab.number <- as.numeric(toupper(unlist(lapply(strsplit(r$description, " +"),
 r$shell.condition <- as.numeric(toupper(unlist(lapply(strsplit(r$description, " +"), function(x) x[5]))))
 
 # Re-order variables:
-r <- r[c("date", "time", "tow.id", "crab.number", "shell.condition", "color.x", "color.y", "color.z")]
+r <- r[c("date", "time", "tow.id", "crab.number", "shell.condition", "colour.x", "colour.y", "colour.z")]
 
 # Check index matches:
 b <- read.scsbio(2024)
@@ -71,10 +71,10 @@ XYZ2Lab <- function(X, Y, Z, illuminant = "C"){
    return(v)
 }
 
-v <- XYZ2Lab(r$color.x, r$color.y, r$color.z)
-names(v) <- paste0("color.", names(v))
+v <- XYZ2Lab(r$colour.x, r$colour.y, r$colour.z)
+names(v) <- paste0("colour.", names(v))
 r <- cbind(r, v)
-r <- r[setdiff(names(r), c("color.x", "color.y", "color.z"))]
+r <- r[setdiff(names(r), c("colour.x", "colour.y", "colour.z"))]
 
 # Output to gulf.data:
 write.csv(r, row.names = FALSE,
@@ -87,20 +87,20 @@ r <- r[which(r$carapace.width >= 90), ]
 write.csv(r, row.names = FALSE,
           file = "C:/Users/SuretteTJ/Desktop/github/snow-crab-measurement-project/studies/July 2024 - Snow crab survey/data/scs.crab.2024.csv")
 
-gbarplot(table(round(r$color.b), r$shell.condition), col = c("red", "yellow", "green", "blue", "purple"))
-plot(r$color.L, r$color.b)
-points(r$color.L[r$shell.condition %in% 1:2], r$color.b[r$shell.condition %in% 1:2], pch = 21, bg = "red")
-points(r$color.L[r$shell.condition %in% 3], r$color.b[r$shell.condition %in% 3], pch = 21, bg = "green")
-points(r$color.L[r$shell.condition %in% 4:5], r$color.b[r$shell.condition %in% 4:5], pch = 21, bg = "blue")
+gbarplot(table(round(r$colour.b), r$shell.condition), col = c("red", "yellow", "green", "blue", "purple"))
+plot(r$colour.L, r$colour.b)
+points(r$colour.L[r$shell.condition %in% 1:2], r$colour.b[r$shell.condition %in% 1:2], pch = 21, bg = "red")
+points(r$colour.L[r$shell.condition %in% 3], r$colour.b[r$shell.condition %in% 3], pch = 21, bg = "green")
+points(r$colour.L[r$shell.condition %in% 4:5], r$colour.b[r$shell.condition %in% 4:5], pch = 21, bg = "blue")
 
-gbarplot(table(round(r$color.b[r$shell.condition %in% 1:2] * 2) / 2), col = fade("red"), grid = TRUE, xlim = c(-5, 30))
-gbarplot(table(round(r$color.b[r$shell.condition %in% 3] * 2) / 2), col = fade("green"), add = TRUE)
-gbarplot(table(round(r$color.b[r$shell.condition %in% 4:5]* 2) / 2), col = fade("blue"), add = TRUE)
+gbarplot(table(round(r$colour.b[r$shell.condition %in% 1:2] * 2) / 2), col = fade("red"), grid = TRUE, xlim = c(-5, 30))
+gbarplot(table(round(r$colour.b[r$shell.condition %in% 3] * 2) / 2), col = fade("green"), add = TRUE)
+gbarplot(table(round(r$colour.b[r$shell.condition %in% 4:5]* 2) / 2), col = fade("blue"), add = TRUE)
 box(col = "grey50")
 
-t <- table(round(r$color.b * 2) / 2, r$shell.condition)
+t <- table(round(r$colour.b * 2) / 2, r$shell.condition)
 t <- t / repvec(apply(t, 1, sum), ncol = ncol(t))
-png(file = "results/figures/colorimeter shell condition proportions.png",
+png(file = "results/figures/colourimeter shell condition proportions.png",
     res = 500, units = "in", height = 5.5, width = 7)
 gbarplot(t, col = fade(c("red", "yellow", "green", "blue", "purple")), 
          legend = FALSE, xlim = c(-3, 26))
@@ -109,7 +109,7 @@ legend("bottomleft",
        legend = 1:5,
        pt.cex = 2.5, 
        pt.bg = fade(c("red", "yellow", "green", "blue", "purple")))
-mtext("Color b*", 1, 2.5, cex = 1.25, font = 2)
+mtext("colour b*", 1, 2.5, cex = 1.25, font = 2)
 mtext("Proportion", 2, 2.5, cex = 1.25, font = 2)
 box(col = "grey50")
 dev.off()

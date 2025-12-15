@@ -1,4 +1,4 @@
-"date","time","tow.id","crab.number","shell.condition","color.L","color.a","color.b","tow.number","carapace.width","chela.height","missing.legs","samplers"
+"date","time","tow.id","crab.number","shell.condition","colour.L","colour.a","colour.b","tow.number","carapace.width","chela.height","missing.legs","samplers"
 "2024-08-07","06:16:23","GP001F",35,1,55.8406478249394,-2.86911017863051,-1.21428256876928,1,99.51,19.31,"**********","Yves Larocque"
 "2024-08-07","06:17:26","GP001F",36,1,63.9547141697569,-3.30106579005052,6.69300777184187,1,96.56,19.94,"**********","Yves Larocque"
 "2024-08-06","20:35:54","GP003F",25,1,50.3969668619813,-1.64898259180452,4.89079287568728,4,90.67,17.18,"********1*","Murray McWilliams"
