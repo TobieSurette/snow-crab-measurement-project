@@ -20,6 +20,7 @@ x$tow.number <- b$tow.number[ix]
 x$carapace.width <- b$carapace.width[ix]
 x$maturity <- b$maturity[ix]
 x$shell.condition <- b$shell.condition[ix]
+x$water.content <- 100 * (x$muscle.weight.wet.g - x$muscle.weight.dry.g) / x$muscle.weight.wet.g
 
 # Add coordinates:
 s <- read.scsset(2025, valid = 1)
@@ -58,8 +59,8 @@ legend("topright",
 box(col = "grey50")
 dev.off()
 
-# Muscle weight versus colorimeter:
-png(file = "studies/July 2025 - Snow crab survey/figures/muscle weight versus colour.png", res = 500, units = "in", height = 5.75, width = 7)
+# Water content versus colorimeter:
+png(file = "studies/July 2025 - Snow crab survey/figures/water content versus colour.png", res = 500, units = "in", height = 5.75, width = 7)
 xx <- x$colour.b
 yy <- 100 * (x$muscle.weight.wet.g - x$muscle.weight.dry.g) / x$muscle.weight.wet.g
 plot(xx, yy, ylim = c(76, 90), yaxs = "i", xlab = "", ylab = "", type = "n")
@@ -74,6 +75,16 @@ for (i in 2:4){
 }
 mtext("Colorimeter b", 1, 2.5, cex = 1.25, font = 2)
 mtext("Muscle water content (%)", 2, 2.5, cex = 1.25, font = 2)
+vline(6, lty = "dashed", col = fade("red"), lwd = 3)
+
+# Flag odd points:
+ix <- which(((x$shell.condition %in% 3:4) & (x$colour.b < 10) & (yy >= 82)) | 
+            ((x$shell.condition %in% 1:2) & (x$colour.b > 10) & (yy < 82)))
+text(xx[ix], yy[ix], paste0(x$tow.id[ix], ":", x$crab.number[ix]), pos = sample(1:4, length(ix), replace = TRUE), cex = 0.75)
+
+ix <- which(x$tow.id == "GP309F" & x$crab.number == 20)
+text(xx[ix], yy[ix], paste0(x$tow.id[ix], ":", x$crab.number[ix]), pos = sample(1:4, length(ix), replace = TRUE), cex = 0.75)
+
 legend("topright", 
        legend = paste0("Shell condition ", 1:4), pt.cex = 1.5,
        pt.lwd = 0.5, col = "grey50", 
@@ -106,15 +117,17 @@ dev.off()
 # Spatial patterns:
 clg()
 shell.condition <- 4
-png(file = paste0("studies/July 2025 - Snow crab survey/figures/water content deviations SC", shell.condition, ".png"),
+var <- "colour.b" # "water.content" #  # 
+if (var == "water.content") legend.str <- paste0(c("Less watery muscle SC ", "More watery muscle SC "), shell.condition)
+if (var == "colour.b")      legend.str <- paste0(c("Whiter crab SC ", "Yellower/darker crab SC "), shell.condition)
+png(file = paste0("studies/July 2025 - Snow crab survey/figures/", gsub("[.]", " ", var), " deviations SC", shell.condition, ".png"),
     width = 7, height = 5.75, res = 500, units = "in")
 map.new()
 map("bathymetry")
 points(x$longitude, x$latitude)
 
-ix <- x$shell.condition == shell.condition
-cex <- x$muscle.weight.dry.g / x$muscle.weight.wet.g
-cex <- (cex - mean(cex[ix], na.rm = TRUE)) / sd(cex[ix], na.rm = TRUE)
+ix <- x$shell.condition %in% shell.condition
+cex <- (x[, var] - mean(x[ix, var], na.rm = TRUE)) / sd(x[ix, var], na.rm = TRUE)
 points(x$longitude[ix & cex < 0], x$latitude[ix & cex < 0], 
        pch = 21, col = fade("grey50"), bg = fade("red"),
        cex = 2.5*sqrt(-cex[ix & cex < 0]))
@@ -124,7 +137,7 @@ points(x$longitude[ix & cex > 0], x$latitude[ix & cex > 0],
 map("coast", col = "papayawhip")
 
 legend("bottomleft", 
-       legend = paste0(c("More watery SC", "Less watery SC"), shell.condition),
+       legend = legend.str,
        pch = 21, pt.bg = fade(c("red", "blue")), pt.lwd = 0.5, col = "grey50",
        pt.cex = 2.25,
        bg = fade("white"))

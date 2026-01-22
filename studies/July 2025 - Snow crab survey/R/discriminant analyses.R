@@ -33,7 +33,7 @@ x$colour.b <- z$colour.b[ix]
 x$shell.weight.dry.g[which((x$tow.id == "GP304F") & (x$crab.number == 90))] <- 4.1781
 x$shell.condition[which((x$tow.id == "GP213F") & (x$crab.number == 11))] <- 2
 
-x$water.content <- (1-x$muscle.weight.dry.g / x$muscle.weight.wet.g)
+x$water.content <- 100*(1-x$muscle.weight.dry.g / x$muscle.weight.wet.g)
 plot(x$water.content, type = "n")
 ix <- x$shell.condition == 2
 points(which(ix), x$water.content[which(ix)], pch = 21, bg = fade("yellow"), col = "grey50", lwd = 0.5)
@@ -44,12 +44,7 @@ points(which(ix), x$water.content[which(ix)], pch = 21, bg = fade("red"), col = 
 ix <- x$shell.condition == 4
 points(which(ix), x$water.content[which(ix)], pch = 21, bg = fade("blue"), col = "grey50", lwd = 0.5)
 
-ix <- which(x$water.content > 0.84 & x$shell.condition %in% 3:5)
-
-
-m <- rbind(0, cbind(0, kronecker(1:2, matrix(1, nrow = 5, ncol = 5)), 0), 0)
-layout(m)
-par(mar = c(0,0,0,0))
+ix <- which(x$water.content > 84 & x$shell.condition %in% 3:5)
 
 # Muscle water content analysis:
 clg()
@@ -57,11 +52,11 @@ png(file = "studies/July 2025 - Snow crab survey/figures/Discriminant analysis -
 model <- mgcv::gam(new ~ water.content, data = x, family = binomial())
 beta <- coef(model)
 
-t <- table(round(x$water.content*200)/200, x$shell.condition)
+t <- table(round(x$water.content*2)/2, x$shell.condition)
 t <- t / repvec(apply(t, 1, sum), ncol = ncol(t))
 gbarplot(t, col = fade(c("white", "yellow", "red", "blue")), legend = FALSE, 
          xaxt = "n", yaxt = "n")
-xx <- seq(0.7, 0.95, by = 0.001)
+xx <- 100*seq(0.7, 0.95, by = 0.001)
 pp <- predict(model, newdata = list(water.content = xx))
 pp <- 1 / (1 + exp(-pp))
 lines(xx, pp, lwd = 2, col = "grey30")
@@ -73,9 +68,9 @@ for (i in 1:length(xp)){
    lines(c(xp[i], xp[i]), c(0, as.numeric(names(xp)[i])), lty = "dashed")
    lines(c(par("usr")[1], xp[i]), rep(as.numeric(names(xp)[i]), 2), lty = "dashed")
    #mtext(as.numeric(names(xp)[i]), 2, 0.25, at = as.numeric(names(xp)[i]), col = "red")
-   mtext(round(xp[i], 3), 1, 0.25, at = xp[i], col = "red", cex = 0.75)
+   mtext(round(xp[i], 1), 1, 0.25, at = xp[i], col = "red", cex = 0.75)
 }
-axis(1, at = seq(0.74, 1, by = 0.02))
+axis(1, at = 100*seq(0.74, 1, by = 0.02))
 axis(2, at = seq(0, 1, by = 0.25))
 mtext("Muscle water content (%)", 1, 2.5, font = 2, cex = 1.25)
 mtext("Proportion of new-shelled", 2, 2.5, font = 2, cex = 1.25)
@@ -89,7 +84,6 @@ box(col = "grey50")
 dev.off()
 
 table(x$shell.condition, x$water.content > xp[["0.5"]]) # Confusion matrix.
-
 
 # Shell weight content analysis:
 clg()
