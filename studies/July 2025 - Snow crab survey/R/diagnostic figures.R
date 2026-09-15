@@ -80,7 +80,7 @@ vline(6, lty = "dashed", col = fade("red"), lwd = 3)
 # Flag odd points:
 ix <- which(((x$shell.condition %in% 3:4) & (x$colour.b < 10) & (yy >= 82)) | 
             ((x$shell.condition %in% 1:2) & (x$colour.b > 10) & (yy < 82)))
-text(xx[ix], yy[ix], paste0(x$tow.id[ix], ":", x$crab.number[ix]), pos = sample(1:4, length(ix), replace = TRUE), cex = 0.75)
+#text(xx[ix], yy[ix], paste0(x$tow.id[ix], ":", x$crab.number[ix]), pos = sample(1:4, length(ix), replace = TRUE), cex = 0.75)
 
 ix <- which(x$tow.id == "GP309F" & x$crab.number == 20)
 text(xx[ix], yy[ix], paste0(x$tow.id[ix], ":", x$crab.number[ix]), pos = sample(1:4, length(ix), replace = TRUE), cex = 0.75)
